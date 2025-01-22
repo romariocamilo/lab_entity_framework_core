@@ -30,3 +30,8 @@ Este projeto é voltado para estudantes e profissionais que desejam aprender ou 
 - **SQL Server** (ou outro banco de dados à sua escolha)
 
 ## Como Usar
+
+1. Clone este repositório:
+
+   ```bash
+   git clone <URL_DO_REPOSITORIO>
