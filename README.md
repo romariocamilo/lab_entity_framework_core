@@ -34,7 +34,7 @@ Este projeto é voltado para estudantes e profissionais que desejam aprender ou 
 1. Clone este repositório:
 
    ```bash
-   git clone <URL_DO_REPOSITORIO>
+   git clone https://github.com/romariocamilo/lab_entity_framework_core.git
 
 2. Navegue até o diretório do projeto:
    ```bash
