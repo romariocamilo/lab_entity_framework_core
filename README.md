@@ -38,7 +38,7 @@ Este projeto é voltado para estudantes e profissionais que desejam aprender ou 
 
 2. Navegue até o diretório do projeto:
    ```bash
-   cd <NOME_DO_DIRETORIO>
+   cd <PATH de onde clonou o repositório>/lab_entity_framework_core
 3. Restaure os pacotes NuGet:
    ```bash
    dotnet restore
