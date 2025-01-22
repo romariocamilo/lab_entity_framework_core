@@ -35,3 +35,17 @@ Este projeto é voltado para estudantes e profissionais que desejam aprender ou 
 
    ```bash
    git clone <URL_DO_REPOSITORIO>
+
+2. Navegue até o diretório do projeto:
+   ```bash
+   cd <NOME_DO_DIRETORIO>
+3. Restaure os pacotes NuGet:
+   ```bash
+   dotnet restore
+4. Execute as migrações para criar o banco de dados:
+   ```bash
+   dotnet ef database update
+5. Execute o projeto:
+   ```bash
+   dotnet run
+
