@@ -30,8 +30,6 @@ dotnet ef migrations list
 Gera um arquivo SQL contendo o script da migração e o salva no caminho especificado.
 dotnet ef migrations script -o scripts\PrimeiraMigracao.SQL  
 
-Lista todas as migrações criadas no projeto.
-dotnet ef migrations list  
 
 Aplica todas as migrações pendentes ao banco de dados.
 dotnet ef database update  

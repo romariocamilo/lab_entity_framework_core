@@ -2,7 +2,7 @@
 {
     public enum TipoPessoa
     {
-        Fidica,
+        Fisica,
         Juridica
     }
 }

@@ -5,7 +5,9 @@ namespace lab_entity_framework_core.Data
 {
     public class ApplicationContext : DbContext
     {
-        public DbSet<Pessoa> Pessoas { get; set; }
+        // Este exemplo mostra como adicionar a entidade ao contexto do banco de dados de forma automática
+        // somente declarando o tipo public DbSet<Pessoa> Pessoa { get; set; }
+        public DbSet<Pessoa> Pessoa { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

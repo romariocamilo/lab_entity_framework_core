@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "lab_entity_framework_core_automatico": {
+      "commandName": "Project"
+    },
+    "WSL": {
+      "commandName": "WSL2",
+      "distributionName": ""
+    }
+  }
+}
