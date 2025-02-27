@@ -89,3 +89,25 @@ Este projeto é voltado para estudantes e profissionais que desejam aprender ou 
    Sincroniza o banco de dados com a migração que foi informada
    dotnet ef database update 20250218000011_20250217232714_PrimeiraMigracao
 
+## Pacotes para usar o Entity Framework Core com SQL Server:
+
+1.
+   ```bash
+Instala o Entity Framework Core no projeto.
+dotnet add package Microsoft.EntityFrameworkCore  
+
+2.
+   ```bash
+Instala a ferramenta `dotnet ef` globalmente.
+dotnet tool install --global dotnet-ef  
+
+3.
+   ```bash
+Instala o provedor do Entity Framework Core para SQL Server.
+dotnet add package Microsoft.EntityFrameworkCore.SqlServer  
+
+4.
+   ```bash
+Instala o pacote necessário para criar e aplicar migrações.
+dotnet add package Microsoft.EntityFrameworkCore.Design  
+
