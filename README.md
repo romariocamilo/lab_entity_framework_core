@@ -50,8 +50,9 @@ Este projeto é voltado para estudantes e profissionais que desejam aprender ou 
 
 ## Comandos  Entity Framework Core:
 
-```bash
-Cria uma nova migração chamada `PrimeiraMigracao`, gerando arquivos dentro da pasta `Migrations`.
+   ```bash
+   Cria uma nova migração chamada `PrimeiraMigracao`, gerando arquivos dentro da pasta `Migrations`.
+
 dotnet ef migrations add PrimeiraMigracao  
 
 Remove a última migração criada ou uma específica, se o nome for informado. Só pode ser usada se a migração ainda não foi aplicada ao banco de dados.
