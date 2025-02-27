@@ -1,38 +1,43 @@
 ﻿using lab_entity_framework_core.Data;
 using lab_entity_framework_core_automatico.Domain;
+using lab_entity_framework_core_automatico.Utils;
 using Microsoft.EntityFrameworkCore;
 
 namespace lab_entity_framework_core_automatico
 {
     internal class Program
     {
+        // Criação do contexto
         public static ApplicationContext db = new ApplicationContext();
 
         static void Main(string[] args)
         {
-            // Criação do contexto
-            using var db = new ApplicationContext();
-
+            //Testando Métodos EF Core
 
             //ExecutaMigrations();
             //ExecutaMigrationsPendentesCasoExista();
-            //InseriDados();
-            //InseriDadosEmLote();
-            //ConsultaDadosPorSintaxe();
-            //ConsultaDadosPorMetodoLambda();
-
-            Console.WriteLine("Hello, World!");
+            DeletaTodasPessoas();
+            InseriDados();
+            InseriDadosEmLote();
+            ConsultaDadosPorSintaxe();
+            ConsultaDadosPorMetodoLambda();
+            AtualizaDados();
+            AtualizaDadosDesconectado();
+            RemoveRegistros();
+            RemoveRegistrosDesconectado();
+            
+            Console.WriteLine("Teste Finalizado");
         }
 
         public static void ExecutaMigrations()
         {
-            // Essa forma aplica as migrations sempre que a aplicação roda
+            // Essa método aplica as migrations pendentes sempre que é chamado
             db.Database.Migrate();
         }
 
         public static void ExecutaMigrationsPendentesCasoExista()
         {
-            // Esse comando verifica se tem alguma migraçãp pendente
+            // Esse comando verifica se tem alguma migraçãp pendente e caso tenha executa
             var existeMigracaoPendente = db.Database.GetPendingMigrations().Any();
 
             if (existeMigracaoPendente)
@@ -45,30 +50,7 @@ namespace lab_entity_framework_core_automatico
         public static void InseriDados()
         {
             // Não passei os ids porque são incrementados automaticamente
-            var pessoa = new Pessoa
-            {
-                Nome = "Romário",
-                Sobrenome = "Camilo",
-                Cpf = "10528785630",
-                Endereco = new Endereco
-                {
-                    Logradouro = "Rua",
-                    Nome = "Aragon",
-                    Numero = 300,
-                    Complemento = "Bloco C, Apto 706",
-                    Cidade = new Cidade
-                    {
-                        Nome = "Uberlândia",
-                        Estado = new Estado
-                        {
-                            Nome = "Minas Gerais",
-                            NomeCidade = "Erro"
-                        }
-                    },
-
-                },
-                TipoPessoa = TipoPessoa.Fisica
-            };
+            var pessoa = new Pessoa();
 
             // Várias formas de add o objeto no banco
             db.Pessoa.Add(pessoa);
@@ -83,54 +65,8 @@ namespace lab_entity_framework_core_automatico
         public static void InseriDadosEmLote()
         {
             // Criando os dois objetos de pessoa
-            var pessoa = new Pessoa
-            {
-                Nome = "Romário",
-                Sobrenome = "Camilo",
-                Cpf = "10528785630",
-                Endereco = new Endereco
-                {
-                    Logradouro = "Rua",
-                    Nome = "Aragon",
-                    Numero = 300,
-                    Complemento = "Bloco C, Apto 706",
-                    Cidade = new Cidade
-                    {
-                        Nome = "Uberlândia",
-                        Estado = new Estado
-                        {
-                            Nome = "Minas Gerais",
-                            NomeCidade = "Erro"
-                        }
-                    },
-
-                },
-                TipoPessoa = TipoPessoa.Fisica
-            };
-            var pessoaDois = new Pessoa
-            {
-                Nome = "Romário 2",
-                Sobrenome = "Camilo 2",
-                Cpf = "10528785630 2",
-                Endereco = new Endereco
-                {
-                    Logradouro = "Rua 2",
-                    Nome = "Aragon 2",
-                    Numero = 300,
-                    Complemento = "Bloco C, Apto 706 2",
-                    Cidade = new Cidade
-                    {
-                        Nome = "Uberlândia 2",
-                        Estado = new Estado
-                        {
-                            Nome = "Minas Gerais 2",
-                            NomeCidade = "Erro 2"
-                        }
-                    },
-
-                },
-                TipoPessoa = TipoPessoa.Fisica
-            };
+            var pessoa = new Pessoa();
+            var pessoaDois = new Pessoa();
 
             // Criando a lista e inserindo as pessoas nela
             var listaPessoas = new List<Pessoa>
@@ -151,49 +87,156 @@ namespace lab_entity_framework_core_automatico
 
         public static void ConsultaDadosPorSintaxe()
         {
-            // Consulta por sintaxe, o include serve para o objeto endereço não voltar null
-            // os then include é para os objetos cidade e estado não voltarem null
-            var consultaPessoas = (from pe in db.Pessoa
+            InseriDadosEmLote();
+
+            // Consulta todas as pessoas por sintaxe
+            // O Include serve para o objeto endereço não voltar null
+            // Os Then é para os objetos cidade e estado não voltarem null
+            var consultaPessoas = (from pessoa in db.Pessoa
                                    .Include(p => p.Endereco)
                                    .ThenInclude(p => p.Cidade)
                                    .ThenInclude(p => p.Estado)
-                                   where pe.Nome == "Romário 2"
-                                   select pe).ToList();
+                                   where pessoa.Id > 0
+                                   select pessoa).ToList();
 
  
 
             foreach (var pessoa in consultaPessoas)
             {
-                Console.WriteLine(pessoa);
+                // Busca pessoa no cache
+                var pessoaCache = db.Pessoa.Find(pessoa.Id);
 
-                // Busca cliente no cache
-                var teste = db.Pessoa.Find(pessoa.Id);
+                //Escreve pessoa do cache
+                Console.WriteLine(pessoaCache);
             }
 
             // O AsNoTracking força a consulta no banco de dados e não em cache
-            // var consultaPessoas2 = db.Pessoa.AsNoTracking().Where(p => p.Nome == "Romário 2").ToList();
+            var consultaPessoasDoBanco = db.Pessoa.AsNoTracking().Where(p => p.Id == consultaPessoas.Last().Id).ToList();
         }
 
         public static void ConsultaDadosPorMetodoLambda()
         {
-            // Consulta por método com lambda, o include serve para o objeto endereço não voltar null
-            // os then include é para os objetos cidade e estado não voltarem null
-            var consultaPessoas2 = db.Pessoa.Include(p => p.Endereco)
+            InseriDadosEmLote();
+
+            // Consulta por método com lambda
+            // O Include serve para o objeto endereço não voltar null
+            // Os Then é para os objetos cidade e estado não voltarem null
+            var consultaPessoas = db.Pessoa.Include(p => p.Endereco)
                 .ThenInclude(p => p.Cidade)
                 .ThenInclude(p => p.Estado)
-                .Where(p => p.Nome == "Romário 2")
+                .Where(p => p.Id > 0)
                 .ToList();
 
-            foreach (var pessoa in consultaPessoas2)
+            foreach (var pessoa in consultaPessoas)
             {
-                Console.WriteLine(pessoa);
-
                 // Busca cliente no cache
-                var teste = db.Pessoa.Find(pessoa.Id);
+                var pessoaCache = db.Pessoa.Find(pessoa.Id);
+
+                Console.WriteLine(pessoaCache);
             }
 
             // O AsNoTracking força a consulta no banco de dados e não em cache
-            // var consultaPessoas2 = db.Pessoa.AsNoTracking().Where(p => p.Nome == "Romário 2").ToList();
+            var consultaPessoasBanco = db.Pessoa.AsNoTracking().Where(p => p.Id == consultaPessoas.Last().Id).ToList();
+        }
+
+        public static void AtualizaDados()
+        {
+            InseriDadosEmLote();
+
+            // Não criei um método de consulta para reaproveitamento só para fins explicativos
+            var consultaPessoas = db.Pessoa.Include(p => p.Endereco)
+            .ThenInclude(p => p.Cidade)
+            .ThenInclude(p => p.Estado)
+            .Where(p => p.Id > 0)
+            .ToList();
+
+            // Usei o find que vai direto na chave primaria da tabela pessoa
+            var pessoa = db.Pessoa.Find(consultaPessoas.First().Id);
+
+            // Atualiza somente o que mudou, igual ao PATCH
+            pessoa.Nome = new BogusFakerCustom().Faker.Person.FirstName + "Atualizado" + Random.Shared.Next();   
+            db.SaveChanges();
+
+            // Atualizado todo o objeto caso a linha abaixo esteja descomentada
+            pessoa.Nome = new BogusFakerCustom().Faker.Person.FirstName + "Atualizado" + Random.Shared.Next() + "Novo";
+            db.Pessoa.Update(pessoa);
+            db.SaveChanges();
+        }
+
+        public static void AtualizaDadosDesconectado()
+        {
+            InseriDadosEmLote();
+
+            // Não criei um método de consulta para reaproveitamento só para fins explicativos
+            var consultaPessoas = db.Pessoa.Include(p => p.Endereco)
+            .ThenInclude(p => p.Cidade)
+            .ThenInclude(p => p.Estado)
+            .Where(p => p.Id > 0)
+            .ToList();
+
+            // Usei o find com 4, porque seu que o id do pessoal 4 existe na base
+            var pessoa = db.Pessoa.Find(consultaPessoas.First().Id);
+
+            var pessoaDesconectada = new
+            {
+                Nome = "Pessoa Desconectada"
+            };
+
+            //db.Entry(pessoa).CurrentValues.SetValues(pessoaDesconectada);
+            db.Update(pessoa).CurrentValues.SetValues(pessoaDesconectada);
+            db.SaveChanges();
+        }
+
+        public static void RemoveRegistros()
+        {
+            InseriDadosEmLote();
+
+            // Não criei um método de consulta para reaproveitamento só para fins explicativos
+            var consultaPessoas = db.Pessoa.Include(p => p.Endereco)
+            .ThenInclude(p => p.Cidade)
+            .ThenInclude(p => p.Estado)
+            .Where(p => p.Id > 0)
+            .ToList();
+
+            // Usei o find para ir no cache usando o Id como chave primaria
+            var pessoa = db.Pessoa.Find(consultaPessoas.First().Id);
+
+            // Várias formas de remover pessoas
+            db.Remove(pessoa);
+            db.Pessoa.Remove(pessoa);
+            db.Set<Pessoa>().Remove(pessoa);
+            db.Entry(pessoa).State = EntityState.Deleted;
+            db.SaveChanges();
+        }
+
+        public static void RemoveRegistrosDesconectado()
+        {
+            InseriDadosEmLote();
+            Console.WriteLine("Digite o id da pessoa: " + db.Pessoa.First().Id + " entre " + (db.Pessoa.First().Id + db.Pessoa.Count() - 1));
+
+            // Usei o find para ir no cache usando o Id como chave primaria
+            var pessoa = new Pessoa
+            {
+                Id = db.Pessoa.Find(Convert.ToInt32(Console.ReadLine())).Id
+            };
+
+            // Precisei criar um novo contexto para não conflitar a chave primária já estar sendo usada em outra instância
+            using (var context = new ApplicationContext())
+            {
+                // Várias formas de remover pessoas
+                context.Remove(pessoa);
+                context.Pessoa.Remove(pessoa);
+                context.Set<Pessoa>().Remove(pessoa);
+                context.Entry(pessoa).State = EntityState.Deleted;
+                context.SaveChanges();
+            }
+        }
+
+        public static void DeletaTodasPessoas()
+        {
+            var pessoas = db.Pessoa.Where(p => p.Id > 0).ToList();
+            db.RemoveRange(pessoas);
+            db.SaveChanges();
         }
     }
 }
