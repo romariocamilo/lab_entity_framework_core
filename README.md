@@ -53,28 +53,39 @@ Este projeto é voltado para estudantes e profissionais que desejam aprender ou 
    ```bash
    Cria uma nova migração chamada `PrimeiraMigracao`, gerando arquivos dentro da pasta `Migrations`.
    dotnet ef migrations add PrimeiraMigracao  
+
 2.
    ```bash
    Remove a última migração criada ou uma específica, se o nome for informado. Só pode ser usada se a migração ainda não foi aplicada ao banco de dados.
    dotnet ef migrations remove 20250217232714_PrimeiraMigracao  
 
+3.
    ```bash
    Aplica todas as migrações pendentes ao banco de dados.
    dotnet ef database update  
 
-Lista todas as migrações criadas no projeto.
-dotnet ef migrations list  
+4.
+   ```bash
+   Lista todas as migrações criadas no projeto.
+   dotnet ef migrations list  
 
-Gera um arquivo SQL contendo o script da migração e o salva no caminho especificado.
-dotnet ef migrations script -o scripts\PrimeiraMigracao.SQL  
+5.
+   ```bash
+   Gera um arquivo SQL contendo o script da migração e o salva no caminho especificado.
+   dotnet ef migrations script -o scripts\PrimeiraMigracao.SQL  
 
+6.
+   ```bash
+   Aplica todas as migrações pendentes ao banco de dados.
+   dotnet ef database update  
 
-Aplica todas as migrações pendentes ao banco de dados.
-dotnet ef database update  
+7.
+   ```bash
+   Gera arquivo idepotentes com validações para saber se as migrações foram executadas
+   dotnet ef migrations script -o Scripts\PrimeiraMigracaoIdepotente.SQL -i
 
-Gera arquivo idepotentes com validações para saber se as migrações foram executadas
-dotnet ef migrations script -o Scripts\PrimeiraMigracaoIdepotente.SQL -i
-
-Sincroniza o banco de dados com a migração que foi informada
-dotnet ef database update 20250218000011_20250217232714_PrimeiraMigracao
+8.
+   ```bash
+   Sincroniza o banco de dados com a migração que foi informada
+   dotnet ef database update 20250218000011_20250217232714_PrimeiraMigracao
 
