@@ -93,21 +93,21 @@ Este projeto é voltado para estudantes e profissionais que desejam aprender ou 
 
 1.
    ```bash
-Instala o Entity Framework Core no projeto.
-dotnet add package Microsoft.EntityFrameworkCore  
+   Instala o Entity Framework Core no projeto.
+   dotnet add package Microsoft.EntityFrameworkCore  
 
 2.
    ```bash
-Instala a ferramenta `dotnet ef` globalmente.
-dotnet tool install --global dotnet-ef  
+   Instala a ferramenta `dotnet ef` globalmente.
+   dotnet tool install --global dotnet-ef  
 
 3.
    ```bash
-Instala o provedor do Entity Framework Core para SQL Server.
-dotnet add package Microsoft.EntityFrameworkCore.SqlServer  
+   Instala o provedor do Entity Framework Core para SQL Server.
+   dotnet add package Microsoft.EntityFrameworkCore.SqlServer  
 
 4.
    ```bash
-Instala o pacote necessário para criar e aplicar migrações.
-dotnet add package Microsoft.EntityFrameworkCore.Design  
+   Instala o pacote necessário para criar e aplicar migrações.
+   dotnet add package Microsoft.EntityFrameworkCore.Design  
 
