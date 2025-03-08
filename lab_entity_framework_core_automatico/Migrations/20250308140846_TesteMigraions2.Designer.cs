@@ -10,7 +10,7 @@ using lab_entity_framework_core.Data;
 
 namespace lab_entity_framework_core_automatico.Migrations
 {
-    [DbContext(typeof(ApplicationContext))]
+    [DbContext(typeof(ApplicationContextAutomatico))]
     [Migration("20250308140846_TesteMigraions2")]
     partial class TesteMigraions2
     {

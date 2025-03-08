@@ -2,20 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using lab_entity_framework_core.Data;
+using lab_entity_framework_core_data_annotations.Data;
 
 #nullable disable
 
-namespace lab_entity_framework_core_automatico.Migrations
+namespace lab_entity_framework_core_data_annotations.Migrations
 {
-    [DbContext(typeof(ApplicationContextAutomatico))]
-    [Migration("20250227224020_AjusteTipoPessoa")]
-    partial class AjusteTipoPessoa
+    [DbContext(typeof(ApplicationContextDataAnnotations))]
+    partial class ApplicationContextDataAnnotationsModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -24,7 +21,7 @@ namespace lab_entity_framework_core_automatico.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("lab_entity_framework_core_automatico.Domain.Cidade", b =>
+            modelBuilder.Entity("lab_entity_framework_core_data_annotations.Domain.Cidade", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -46,7 +43,7 @@ namespace lab_entity_framework_core_automatico.Migrations
                     b.ToTable("Cidade");
                 });
 
-            modelBuilder.Entity("lab_entity_framework_core_automatico.Domain.Endereco", b =>
+            modelBuilder.Entity("lab_entity_framework_core_data_annotations.Domain.Endereco", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -80,7 +77,7 @@ namespace lab_entity_framework_core_automatico.Migrations
                     b.ToTable("Endereco");
                 });
 
-            modelBuilder.Entity("lab_entity_framework_core_automatico.Domain.Estado", b =>
+            modelBuilder.Entity("lab_entity_framework_core_data_annotations.Domain.Estado", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -101,7 +98,7 @@ namespace lab_entity_framework_core_automatico.Migrations
                     b.ToTable("Estado");
                 });
 
-            modelBuilder.Entity("lab_entity_framework_core_automatico.Domain.Pessoa", b =>
+            modelBuilder.Entity("lab_entity_framework_core_data_annotations.Domain.Pessoa", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -111,7 +108,8 @@ namespace lab_entity_framework_core_automatico.Migrations
 
                     b.Property<string>("Cpf")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Cpf_Pessoa");
 
                     b.Property<int>("EnderecoId")
                         .HasColumnType("int");
@@ -122,7 +120,8 @@ namespace lab_entity_framework_core_automatico.Migrations
 
                     b.Property<string>("Sobrenome")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<int>("TipoPessoa")
                         .HasColumnType("int");
@@ -131,12 +130,12 @@ namespace lab_entity_framework_core_automatico.Migrations
 
                     b.HasIndex("EnderecoId");
 
-                    b.ToTable("Pessoa");
+                    b.ToTable("Tabela_Pessoa");
                 });
 
-            modelBuilder.Entity("lab_entity_framework_core_automatico.Domain.Cidade", b =>
+            modelBuilder.Entity("lab_entity_framework_core_data_annotations.Domain.Cidade", b =>
                 {
-                    b.HasOne("lab_entity_framework_core_automatico.Domain.Estado", "Estado")
+                    b.HasOne("lab_entity_framework_core_data_annotations.Domain.Estado", "Estado")
                         .WithMany()
                         .HasForeignKey("EstadoId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -145,9 +144,9 @@ namespace lab_entity_framework_core_automatico.Migrations
                     b.Navigation("Estado");
                 });
 
-            modelBuilder.Entity("lab_entity_framework_core_automatico.Domain.Endereco", b =>
+            modelBuilder.Entity("lab_entity_framework_core_data_annotations.Domain.Endereco", b =>
                 {
-                    b.HasOne("lab_entity_framework_core_automatico.Domain.Cidade", "Cidade")
+                    b.HasOne("lab_entity_framework_core_data_annotations.Domain.Cidade", "Cidade")
                         .WithMany()
                         .HasForeignKey("CidadeId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -156,9 +155,9 @@ namespace lab_entity_framework_core_automatico.Migrations
                     b.Navigation("Cidade");
                 });
 
-            modelBuilder.Entity("lab_entity_framework_core_automatico.Domain.Pessoa", b =>
+            modelBuilder.Entity("lab_entity_framework_core_data_annotations.Domain.Pessoa", b =>
                 {
-                    b.HasOne("lab_entity_framework_core_automatico.Domain.Endereco", "Endereco")
+                    b.HasOne("lab_entity_framework_core_data_annotations.Domain.Endereco", "Endereco")
                         .WithMany()
                         .HasForeignKey("EnderecoId")
                         .OnDelete(DeleteBehavior.Cascade)

@@ -8,7 +8,7 @@ namespace lab_entity_framework_core_automatico
     internal class Program
     {
         // Criação do contexto
-        public static ApplicationContext db = new ApplicationContext();
+        public static ApplicationContextAutomatico dbAutomatico = new ApplicationContextAutomatico();
 
         static void Main(string[] args)
         {
@@ -32,13 +32,13 @@ namespace lab_entity_framework_core_automatico
         public static void ExecutaMigrations()
         {
             // Essa método aplica as migrations pendentes sempre que é chamado
-            db.Database.Migrate();
+            dbAutomatico.Database.Migrate();
         }
 
         public static void ExecutaMigrationsPendentesCasoExista()
         {
             // Esse comando verifica se tem alguma migraçãp pendente e caso tenha executa
-            var existeMigracaoPendente = db.Database.GetPendingMigrations().Any();
+            var existeMigracaoPendente = dbAutomatico.Database.GetPendingMigrations().Any();
 
             if (existeMigracaoPendente)
             {
@@ -53,13 +53,13 @@ namespace lab_entity_framework_core_automatico
             var pessoa = new Pessoa();
 
             // Várias formas de add o objeto no banco
-            db.Pessoa.Add(pessoa);
-            db.Set<Pessoa>().Add(pessoa);
-            db.Entry(pessoa).State = EntityState.Added;
-            db.Add(pessoa);
+            dbAutomatico.Pessoa.Add(pessoa);
+            dbAutomatico.Set<Pessoa>().Add(pessoa);
+            dbAutomatico.Entry(pessoa).State = EntityState.Added;
+            dbAutomatico.Add(pessoa);
 
             // Salvando registros
-            var registros = db.SaveChanges();
+            var registros = dbAutomatico.SaveChanges();
         }
 
         public static void InseriDadosEmLote()
@@ -76,13 +76,13 @@ namespace lab_entity_framework_core_automatico
             };
 
             // Várias formas de add a lista no banco
-            db.Pessoa.AddRange(listaPessoas);
-            db.Set<Pessoa>().AddRange(listaPessoas);
-            db.AddRange(listaPessoas);
+            dbAutomatico.Pessoa.AddRange(listaPessoas);
+            dbAutomatico.Set<Pessoa>().AddRange(listaPessoas);
+            dbAutomatico.AddRange(listaPessoas);
 
 
             // Salvando registros
-            db.SaveChanges();
+            dbAutomatico.SaveChanges();
         }
 
         public static void ConsultaDadosPorSintaxe()
@@ -92,7 +92,7 @@ namespace lab_entity_framework_core_automatico
             // Consulta todas as pessoas por sintaxe
             // O Include serve para o objeto endereço não voltar null
             // Os Then é para os objetos cidade e estado não voltarem null
-            var consultaPessoas = (from pessoa in db.Pessoa
+            var consultaPessoas = (from pessoa in dbAutomatico.Pessoa
                                    .Include(p => p.Endereco)
                                    .ThenInclude(p => p.Cidade)
                                    .ThenInclude(p => p.Estado)
@@ -104,14 +104,14 @@ namespace lab_entity_framework_core_automatico
             foreach (var pessoa in consultaPessoas)
             {
                 // Busca pessoa no cache
-                var pessoaCache = db.Pessoa.Find(pessoa.Id);
+                var pessoaCache = dbAutomatico.Pessoa.Find(pessoa.Id);
 
                 //Escreve pessoa do cache
                 Console.WriteLine(pessoaCache);
             }
 
             // O AsNoTracking força a consulta no banco de dados e não em cache
-            var consultaPessoasDoBanco = db.Pessoa.AsNoTracking().Where(p => p.Id == consultaPessoas.Last().Id).ToList();
+            var consultaPessoasDoBanco = dbAutomatico.Pessoa.AsNoTracking().Where(p => p.Id == consultaPessoas.Last().Id).ToList();
         }
 
         public static void ConsultaDadosPorMetodoLambda()
@@ -121,7 +121,7 @@ namespace lab_entity_framework_core_automatico
             // Consulta por método com lambda
             // O Include serve para o objeto endereço não voltar null
             // Os Then é para os objetos cidade e estado não voltarem null
-            var consultaPessoas = db.Pessoa.Include(p => p.Endereco)
+            var consultaPessoas = dbAutomatico.Pessoa.Include(p => p.Endereco)
                 .ThenInclude(p => p.Cidade)
                 .ThenInclude(p => p.Estado)
                 .Where(p => p.Id > 0)
@@ -130,13 +130,13 @@ namespace lab_entity_framework_core_automatico
             foreach (var pessoa in consultaPessoas)
             {
                 // Busca cliente no cache
-                var pessoaCache = db.Pessoa.Find(pessoa.Id);
+                var pessoaCache = dbAutomatico.Pessoa.Find(pessoa.Id);
 
                 Console.WriteLine(pessoaCache);
             }
 
             // O AsNoTracking força a consulta no banco de dados e não em cache
-            var consultaPessoasBanco = db.Pessoa.AsNoTracking().Where(p => p.Id == consultaPessoas.Last().Id).ToList();
+            var consultaPessoasBanco = dbAutomatico.Pessoa.AsNoTracking().Where(p => p.Id == consultaPessoas.Last().Id).ToList();
         }
 
         public static void AtualizaDados()
@@ -144,23 +144,23 @@ namespace lab_entity_framework_core_automatico
             InseriDadosEmLote();
 
             // Não criei um método de consulta para reaproveitamento só para fins explicativos
-            var consultaPessoas = db.Pessoa.Include(p => p.Endereco)
+            var consultaPessoas = dbAutomatico.Pessoa.Include(p => p.Endereco)
             .ThenInclude(p => p.Cidade)
             .ThenInclude(p => p.Estado)
             .Where(p => p.Id > 0)
             .ToList();
 
             // Usei o find que vai direto na chave primaria da tabela pessoa
-            var pessoa = db.Pessoa.Find(consultaPessoas.First().Id);
+            var pessoa = dbAutomatico.Pessoa.Find(consultaPessoas.First().Id);
 
             // Atualiza somente o que mudou, igual ao PATCH
             pessoa.Nome = new BogusFakerCustom().Faker.Person.FirstName + "Atualizado" + Random.Shared.Next();   
-            db.SaveChanges();
+            dbAutomatico.SaveChanges();
 
             // Atualizado todo o objeto caso a linha abaixo esteja descomentada
             pessoa.Nome = new BogusFakerCustom().Faker.Person.FirstName + "Atualizado" + Random.Shared.Next() + "Novo";
-            db.Pessoa.Update(pessoa);
-            db.SaveChanges();
+            dbAutomatico.Pessoa.Update(pessoa);
+            dbAutomatico.SaveChanges();
         }
 
         public static void AtualizaDadosDesconectado()
@@ -168,14 +168,14 @@ namespace lab_entity_framework_core_automatico
             InseriDadosEmLote();
 
             // Não criei um método de consulta para reaproveitamento só para fins explicativos
-            var consultaPessoas = db.Pessoa.Include(p => p.Endereco)
+            var consultaPessoas = dbAutomatico.Pessoa.Include(p => p.Endereco)
             .ThenInclude(p => p.Cidade)
             .ThenInclude(p => p.Estado)
             .Where(p => p.Id > 0)
             .ToList();
 
             // Usei o find com 4, porque seu que o id do pessoal 4 existe na base
-            var pessoa = db.Pessoa.Find(consultaPessoas.First().Id);
+            var pessoa = dbAutomatico.Pessoa.Find(consultaPessoas.First().Id);
 
             var pessoaDesconectada = new
             {
@@ -183,8 +183,8 @@ namespace lab_entity_framework_core_automatico
             };
 
             //db.Entry(pessoa).CurrentValues.SetValues(pessoaDesconectada);
-            db.Update(pessoa).CurrentValues.SetValues(pessoaDesconectada);
-            db.SaveChanges();
+            dbAutomatico.Update(pessoa).CurrentValues.SetValues(pessoaDesconectada);
+            dbAutomatico.SaveChanges();
         }
 
         public static void RemoveRegistros()
@@ -192,39 +192,39 @@ namespace lab_entity_framework_core_automatico
             InseriDadosEmLote();
 
             // Não criei um método de consulta para reaproveitamento só para fins explicativos
-            var consultaPessoas = db.Pessoa.Include(p => p.Endereco)
+            var consultaPessoas = dbAutomatico.Pessoa.Include(p => p.Endereco)
             .ThenInclude(p => p.Cidade)
             .ThenInclude(p => p.Estado)
             .Where(p => p.Id > 0)
             .ToList();
 
             // Usei o find para ir no cache usando o Id como chave primaria
-            var pessoa = db.Pessoa.Find(consultaPessoas.First().Id);
+            var pessoa = dbAutomatico.Pessoa.Find(consultaPessoas.First().Id);
 
             // Várias formas de remover pessoas
-            db.Remove(pessoa);
-            db.Pessoa.Remove(pessoa);
-            db.Set<Pessoa>().Remove(pessoa);
-            db.Entry(pessoa).State = EntityState.Deleted;
-            db.SaveChanges();
+            dbAutomatico.Remove(pessoa);
+            dbAutomatico.Pessoa.Remove(pessoa);
+            dbAutomatico.Set<Pessoa>().Remove(pessoa);
+            dbAutomatico.Entry(pessoa).State = EntityState.Deleted;
+            dbAutomatico.SaveChanges();
         }
 
         public static void RemoveRegistrosDesconectado()
         {
             InseriDadosEmLote();
 
-            Console.WriteLine("Digite o id da pessoa: " + db.Pessoa.First().Id + " entre " + (db.Pessoa.First().Id + db.Pessoa.Count() - 1));
+            Console.WriteLine("Digite o id da pessoa: " + dbAutomatico.Pessoa.First().Id + " entre " + (dbAutomatico.Pessoa.First().Id + dbAutomatico.Pessoa.Count() - 1));
 
             try
             {
                 // Usei o find para ir no cache usando o Id como chave primaria
                 var pessoa = new Pessoa
                 {
-                    Id = db.Pessoa.Find(Convert.ToInt32(Console.ReadLine())).Id
+                    Id = dbAutomatico.Pessoa.Find(Convert.ToInt32(Console.ReadLine())).Id
                 };
 
                 // Precisei criar um novo contexto para não conflitar a chave primária já estar sendo usada em outra instância
-                using (var context = new ApplicationContext())
+                using (var context = new ApplicationContextAutomatico())
                 {
                     // Várias formas de remover pessoas
                     context.Remove(pessoa);
@@ -242,9 +242,9 @@ namespace lab_entity_framework_core_automatico
 
         public static void DeletaTodasPessoas()
         {
-            var pessoas = db.Pessoa.Where(p => p.Id > 0).ToList();
-            db.RemoveRange(pessoas);
-            db.SaveChanges();
+            var pessoas = dbAutomatico.Pessoa.Where(p => p.Id > 0).ToList();
+            dbAutomatico.RemoveRange(pessoas);
+            dbAutomatico.SaveChanges();
         }
     }
 }

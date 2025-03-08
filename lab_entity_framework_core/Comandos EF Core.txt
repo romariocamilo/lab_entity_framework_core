@@ -31,9 +31,6 @@ Gera um arquivo SQL contendo o script da migração e o salva no caminho especif
 dotnet ef migrations script -o scripts\PrimeiraMigracao.SQL  
 
 
-Aplica todas as migrações pendentes ao banco de dados.
-dotnet ef database update  
-
 Gera arquivo idepotentes com validações para saber se as migrações foram executadas
 dotnet ef migrations script -o Scripts\PrimeiraMigracaoIdepotente.SQL -i
 

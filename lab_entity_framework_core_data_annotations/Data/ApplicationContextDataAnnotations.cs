@@ -1,10 +1,10 @@
-﻿using lab_entity_framework_core.Domain;
+﻿using lab_entity_framework_core_data_annotations.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace lab_entity_framework_core.Data
+namespace lab_entity_framework_core_data_annotations.Data
 {
-    public class ApplicationContext : DbContext
+    public class ApplicationContextDataAnnotations : DbContext
     {
         public DbSet<Pessoa> Pessoa { get; set; }
 
@@ -19,11 +19,11 @@ namespace lab_entity_framework_core.Data
         // somente declarando o tipo public DbSet<Pessoa> Pessoa { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            //Configurando builder de conexão com log
+            // Configurando builder de conexão com log
             optionsBuilder
                 .UseLoggerFactory(_loggerFactory)
                 .EnableSensitiveDataLogging()
-                .UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=DbLabEntityFrameworkAutomatico;Integrated Security=True");
+                .UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=DbLabEntityFrameworkDataAnnotations;Integrated Security=True");
         }
     }
 }

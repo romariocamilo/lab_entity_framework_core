@@ -8,7 +8,7 @@ namespace lab_entity_framework_core_fluent_api
     internal class Program
     {
         // Criação do contexto
-        public static ApplicationContextFluentApi db = new ApplicationContextFluentApi();
+        public static ApplicationContextFluentApi dbFluentApi = new ApplicationContextFluentApi();
 
         static void Main(string[] args)
         {
@@ -32,13 +32,13 @@ namespace lab_entity_framework_core_fluent_api
         public static void ExecutaMigrations()
         {
             // Essa método aplica as migrations pendentes sempre que é chamado
-            db.Database.Migrate();
+            dbFluentApi.Database.Migrate();
         }
 
         public static void ExecutaMigrationsPendentesCasoExista()
         {
             // Esse comando verifica se tem alguma migraçãp pendente e caso tenha executa
-            var existeMigracaoPendente = db.Database.GetPendingMigrations().Any();
+            var existeMigracaoPendente = dbFluentApi.Database.GetPendingMigrations().Any();
 
             if (existeMigracaoPendente)
             {
@@ -53,13 +53,13 @@ namespace lab_entity_framework_core_fluent_api
             var pessoa = new Pessoa();
 
             // Várias formas de add o objeto no banco
-            db.Pessoa.Add(pessoa);
-            db.Set<Pessoa>().Add(pessoa);
-            db.Entry(pessoa).State = EntityState.Added;
-            db.Add(pessoa);
+            dbFluentApi.Pessoa.Add(pessoa);
+            dbFluentApi.Set<Pessoa>().Add(pessoa);
+            dbFluentApi.Entry(pessoa).State = EntityState.Added;
+            dbFluentApi.Add(pessoa);
 
             // Salvando registros
-            var registros = db.SaveChanges();
+            var registros = dbFluentApi.SaveChanges();
         }
 
         public static void InseriDadosEmLote()
@@ -76,13 +76,13 @@ namespace lab_entity_framework_core_fluent_api
             };
 
             // Várias formas de add a lista no banco
-            db.Pessoa.AddRange(listaPessoas);
-            db.Set<Pessoa>().AddRange(listaPessoas);
-            db.AddRange(listaPessoas);
+            dbFluentApi.Pessoa.AddRange(listaPessoas);
+            dbFluentApi.Set<Pessoa>().AddRange(listaPessoas);
+            dbFluentApi.AddRange(listaPessoas);
 
 
             // Salvando registros
-            db.SaveChanges();
+            dbFluentApi.SaveChanges();
         }
 
         public static void ConsultaDadosPorSintaxe()
@@ -92,7 +92,7 @@ namespace lab_entity_framework_core_fluent_api
             // Consulta todas as pessoas por sintaxe
             // O Include serve para o objeto endereço não voltar null
             // Os Then é para os objetos cidade e estado não voltarem null
-            var consultaPessoas = (from pessoa in db.Pessoa
+            var consultaPessoas = (from pessoa in dbFluentApi.Pessoa
                                    .Include(p => p.Endereco)
                                    .ThenInclude(p => p.Cidade)
                                    .ThenInclude(p => p.Estado)
@@ -104,14 +104,14 @@ namespace lab_entity_framework_core_fluent_api
             foreach (var pessoa in consultaPessoas)
             {
                 // Busca pessoa no cache
-                var pessoaCache = db.Pessoa.Find(pessoa.Id);
+                var pessoaCache = dbFluentApi.Pessoa.Find(pessoa.Id);
 
                 //Escreve pessoa do cache
                 Console.WriteLine(pessoaCache);
             }
 
             // O AsNoTracking força a consulta no banco de dados e não em cache
-            var consultaPessoasDoBanco = db.Pessoa.AsNoTracking().Where(p => p.Id == consultaPessoas.Last().Id).ToList();
+            var consultaPessoasDoBanco = dbFluentApi.Pessoa.AsNoTracking().Where(p => p.Id == consultaPessoas.Last().Id).ToList();
         }
 
         public static void ConsultaDadosPorMetodoLambda()
@@ -121,7 +121,7 @@ namespace lab_entity_framework_core_fluent_api
             // Consulta por método com lambda
             // O Include serve para o objeto endereço não voltar null
             // Os Then é para os objetos cidade e estado não voltarem null
-            var consultaPessoas = db.Pessoa.Include(p => p.Endereco)
+            var consultaPessoas = dbFluentApi.Pessoa.Include(p => p.Endereco)
                 .ThenInclude(p => p.Cidade)
                 .ThenInclude(p => p.Estado)
                 .Where(p => p.Id > 0)
@@ -130,13 +130,13 @@ namespace lab_entity_framework_core_fluent_api
             foreach (var pessoa in consultaPessoas)
             {
                 // Busca cliente no cache
-                var pessoaCache = db.Pessoa.Find(pessoa.Id);
+                var pessoaCache = dbFluentApi.Pessoa.Find(pessoa.Id);
 
                 Console.WriteLine(pessoaCache);
             }
 
             // O AsNoTracking força a consulta no banco de dados e não em cache
-            var consultaPessoasBanco = db.Pessoa.AsNoTracking().Where(p => p.Id == consultaPessoas.Last().Id).ToList();
+            var consultaPessoasBanco = dbFluentApi.Pessoa.AsNoTracking().Where(p => p.Id == consultaPessoas.Last().Id).ToList();
         }
 
         public static void AtualizaDados()
@@ -144,23 +144,23 @@ namespace lab_entity_framework_core_fluent_api
             InseriDadosEmLote();
 
             // Não criei um método de consulta para reaproveitamento só para fins explicativos
-            var consultaPessoas = db.Pessoa.Include(p => p.Endereco)
+            var consultaPessoas = dbFluentApi.Pessoa.Include(p => p.Endereco)
             .ThenInclude(p => p.Cidade)
             .ThenInclude(p => p.Estado)
             .Where(p => p.Id > 0)
             .ToList();
 
             // Usei o find que vai direto na chave primaria da tabela pessoa
-            var pessoa = db.Pessoa.Find(consultaPessoas.First().Id);
+            var pessoa = dbFluentApi.Pessoa.Find(consultaPessoas.First().Id);
 
             // Atualiza somente o que mudou, igual ao PATCH
             pessoa.Nome = new BogusFakerCustom().Faker.Person.FirstName + "Atualizado" + Random.Shared.Next();
-            db.SaveChanges();
+            dbFluentApi.SaveChanges();
 
             // Atualizado todo o objeto caso a linha abaixo esteja descomentada
             pessoa.Nome = new BogusFakerCustom().Faker.Person.FirstName + "Atualizado" + Random.Shared.Next() + "Novo";
-            db.Pessoa.Update(pessoa);
-            db.SaveChanges();
+            dbFluentApi.Pessoa.Update(pessoa);
+            dbFluentApi.SaveChanges();
         }
 
         public static void AtualizaDadosDesconectado()
@@ -168,14 +168,14 @@ namespace lab_entity_framework_core_fluent_api
             InseriDadosEmLote();
 
             // Não criei um método de consulta para reaproveitamento só para fins explicativos
-            var consultaPessoas = db.Pessoa.Include(p => p.Endereco)
+            var consultaPessoas = dbFluentApi.Pessoa.Include(p => p.Endereco)
             .ThenInclude(p => p.Cidade)
             .ThenInclude(p => p.Estado)
             .Where(p => p.Id > 0)
             .ToList();
 
             // Usei o find com 4, porque seu que o id do pessoal 4 existe na base
-            var pessoa = db.Pessoa.Find(consultaPessoas.First().Id);
+            var pessoa = dbFluentApi.Pessoa.Find(consultaPessoas.First().Id);
 
             var pessoaDesconectada = new
             {
@@ -183,8 +183,8 @@ namespace lab_entity_framework_core_fluent_api
             };
 
             //db.Entry(pessoa).CurrentValues.SetValues(pessoaDesconectada);
-            db.Update(pessoa).CurrentValues.SetValues(pessoaDesconectada);
-            db.SaveChanges();
+            dbFluentApi.Update(pessoa).CurrentValues.SetValues(pessoaDesconectada);
+            dbFluentApi.SaveChanges();
         }
 
         public static void RemoveRegistros()
@@ -192,35 +192,35 @@ namespace lab_entity_framework_core_fluent_api
             InseriDadosEmLote();
 
             // Não criei um método de consulta para reaproveitamento só para fins explicativos
-            var consultaPessoas = db.Pessoa.Include(p => p.Endereco)
+            var consultaPessoas = dbFluentApi.Pessoa.Include(p => p.Endereco)
             .ThenInclude(p => p.Cidade)
             .ThenInclude(p => p.Estado)
             .Where(p => p.Id > 0)
             .ToList();
 
             // Usei o find para ir no cache usando o Id como chave primaria
-            var pessoa = db.Pessoa.Find(consultaPessoas.First().Id);
+            var pessoa = dbFluentApi.Pessoa.Find(consultaPessoas.First().Id);
 
             // Várias formas de remover pessoas
-            db.Remove(pessoa);
-            db.Pessoa.Remove(pessoa);
-            db.Set<Pessoa>().Remove(pessoa);
-            db.Entry(pessoa).State = EntityState.Deleted;
-            db.SaveChanges();
+            dbFluentApi.Remove(pessoa);
+            dbFluentApi.Pessoa.Remove(pessoa);
+            dbFluentApi.Set<Pessoa>().Remove(pessoa);
+            dbFluentApi.Entry(pessoa).State = EntityState.Deleted;
+            dbFluentApi.SaveChanges();
         }
 
         public static void RemoveRegistrosDesconectado()
         {
 
             InseriDadosEmLote();
-            Console.WriteLine("Digite o id da pessoa: " + db.Pessoa.First().Id + " entre " + (db.Pessoa.First().Id + db.Pessoa.Count() - 1));
+            Console.WriteLine("Digite o id da pessoa: " + dbFluentApi.Pessoa.First().Id + " entre " + (dbFluentApi.Pessoa.First().Id + dbFluentApi.Pessoa.Count() - 1));
 
             try
             {
                 // Usei o find para ir no cache usando o Id como chave primaria
                 var pessoa = new Pessoa
                 {
-                    Id = db.Pessoa.Find(Convert.ToInt32(Console.ReadLine())).Id
+                    Id = dbFluentApi.Pessoa.Find(Convert.ToInt32(Console.ReadLine())).Id
                 };
 
                 // Precisei criar um novo contexto para não conflitar a chave primária já estar sendo usada em outra instância
@@ -243,9 +243,9 @@ namespace lab_entity_framework_core_fluent_api
         public static void DeletaTodasPessoas()
         {
             // Remove todos os registros da tabela Pessoa
-            var pessoas = db.Pessoa.Where(p => p.Id > 0).ToList();
-            db.RemoveRange(pessoas);
-            db.SaveChanges();
+            var pessoas = dbFluentApi.Pessoa.Where(p => p.Id > 0).ToList();
+            dbFluentApi.RemoveRange(pessoas);
+            dbFluentApi.SaveChanges();
         }
     }
 }

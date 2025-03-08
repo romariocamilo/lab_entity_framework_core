@@ -9,7 +9,7 @@ using lab_entity_framework_core.Data;
 
 namespace lab_entity_framework_core_automatico.Migrations
 {
-    [DbContext(typeof(ApplicationContext))]
+    [DbContext(typeof(ApplicationContextAutomatico))]
     partial class ApplicationContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
