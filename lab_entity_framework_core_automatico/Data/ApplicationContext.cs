@@ -1,4 +1,4 @@
-﻿using lab_entity_framework_core_automatico.Domain;
+﻿using lab_entity_framework_core.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 

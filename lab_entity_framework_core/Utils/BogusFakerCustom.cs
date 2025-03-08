@@ -1,6 +1,6 @@
 ﻿using Bogus;
 
-namespace lab_entity_framework_core_automatico.Utils
+namespace lab_entity_framework_core.Utils
 {
     public class BogusFakerCustom
     {

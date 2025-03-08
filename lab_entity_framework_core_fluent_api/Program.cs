@@ -1,5 +1,5 @@
-﻿using lab_entity_framework_core_automatico.Domain;
-using lab_entity_framework_core_automatico.Utils;
+﻿using lab_entity_framework_core.Domain;
+using lab_entity_framework_core.Utils;
 using lab_entity_framework_core_fluent_api.Data;
 using Microsoft.EntityFrameworkCore;
 

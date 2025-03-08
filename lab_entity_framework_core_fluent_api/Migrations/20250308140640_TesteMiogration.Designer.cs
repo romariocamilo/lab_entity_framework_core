@@ -2,17 +2,20 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using lab_entity_framework_core.Data;
+using lab_entity_framework_core_fluent_api.Data;
 
 #nullable disable
 
-namespace lab_entity_framework_core_automatico.Migrations
+namespace lab_entity_framework_core_fluent_api.Migrations
 {
-    [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(ApplicationContextFluentApi))]
+    [Migration("20250308140640_TesteMiogration")]
+    partial class TesteMiogration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -34,13 +37,13 @@ namespace lab_entity_framework_core_automatico.Migrations
 
                     b.Property<string>("Nome")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VARCHAR(80)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("EstadoId");
 
-                    b.ToTable("Cidade");
+                    b.ToTable("Cidade", (string)null);
                 });
 
             modelBuilder.Entity("lab_entity_framework_core.Domain.Endereco", b =>
@@ -56,25 +59,25 @@ namespace lab_entity_framework_core_automatico.Migrations
 
                     b.Property<string>("Complemento")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VARCHAR(80)");
 
                     b.Property<string>("Logradouro")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VARCHAR(80)");
 
                     b.Property<string>("Nome")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VARCHAR(80)");
 
                     b.Property<string>("Numero")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VARCHAR(10)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CidadeId");
 
-                    b.ToTable("Endereco");
+                    b.ToTable("Endereco", (string)null);
                 });
 
             modelBuilder.Entity("lab_entity_framework_core.Domain.Estado", b =>
@@ -87,7 +90,7 @@ namespace lab_entity_framework_core_automatico.Migrations
 
                     b.Property<string>("Nome")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VARCHAR(80)");
 
                     b.Property<string>("NomeCidade")
                         .IsRequired()
@@ -95,7 +98,7 @@ namespace lab_entity_framework_core_automatico.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Estado");
+                    b.ToTable("Estado", (string)null);
                 });
 
             modelBuilder.Entity("lab_entity_framework_core.Domain.Pessoa", b =>
@@ -108,27 +111,31 @@ namespace lab_entity_framework_core_automatico.Migrations
 
                     b.Property<string>("Cpf")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("CHAR(14)");
 
                     b.Property<int>("EnderecoId")
                         .HasColumnType("int");
 
                     b.Property<string>("Nome")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VARCHAR(80)");
 
                     b.Property<string>("Sobrenome")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VARCHAR(80)");
 
                     b.Property<int>("TipoPessoa")
+                        .HasMaxLength(1)
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Cpf")
+                        .HasDatabaseName("idx_pessoa_cpf");
+
                     b.HasIndex("EnderecoId");
 
-                    b.ToTable("Pessoa");
+                    b.ToTable("Pessoa", (string)null);
                 });
 
             modelBuilder.Entity("lab_entity_framework_core.Domain.Cidade", b =>

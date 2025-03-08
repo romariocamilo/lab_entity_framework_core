@@ -1,6 +1,6 @@
 ﻿using lab_entity_framework_core.Data;
-using lab_entity_framework_core_automatico.Domain;
-using lab_entity_framework_core_automatico.Utils;
+using lab_entity_framework_core.Domain;
+using lab_entity_framework_core.Utils;
 using Microsoft.EntityFrameworkCore;
 
 namespace lab_entity_framework_core_automatico

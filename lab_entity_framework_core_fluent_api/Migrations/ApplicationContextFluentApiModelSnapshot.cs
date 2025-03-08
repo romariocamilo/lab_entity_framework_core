@@ -21,7 +21,7 @@ namespace lab_entity_framework_core_fluent_api.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("lab_entity_framework_core_automatico.Domain.Cidade", b =>
+            modelBuilder.Entity("lab_entity_framework_core.Domain.Cidade", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -43,7 +43,7 @@ namespace lab_entity_framework_core_fluent_api.Migrations
                     b.ToTable("Cidade", (string)null);
                 });
 
-            modelBuilder.Entity("lab_entity_framework_core_automatico.Domain.Endereco", b =>
+            modelBuilder.Entity("lab_entity_framework_core.Domain.Endereco", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -77,7 +77,7 @@ namespace lab_entity_framework_core_fluent_api.Migrations
                     b.ToTable("Endereco", (string)null);
                 });
 
-            modelBuilder.Entity("lab_entity_framework_core_automatico.Domain.Estado", b =>
+            modelBuilder.Entity("lab_entity_framework_core.Domain.Estado", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -98,7 +98,7 @@ namespace lab_entity_framework_core_fluent_api.Migrations
                     b.ToTable("Estado", (string)null);
                 });
 
-            modelBuilder.Entity("lab_entity_framework_core_automatico.Domain.Pessoa", b =>
+            modelBuilder.Entity("lab_entity_framework_core.Domain.Pessoa", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -135,9 +135,9 @@ namespace lab_entity_framework_core_fluent_api.Migrations
                     b.ToTable("Pessoa", (string)null);
                 });
 
-            modelBuilder.Entity("lab_entity_framework_core_automatico.Domain.Cidade", b =>
+            modelBuilder.Entity("lab_entity_framework_core.Domain.Cidade", b =>
                 {
-                    b.HasOne("lab_entity_framework_core_automatico.Domain.Estado", "Estado")
+                    b.HasOne("lab_entity_framework_core.Domain.Estado", "Estado")
                         .WithMany()
                         .HasForeignKey("EstadoId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -146,9 +146,9 @@ namespace lab_entity_framework_core_fluent_api.Migrations
                     b.Navigation("Estado");
                 });
 
-            modelBuilder.Entity("lab_entity_framework_core_automatico.Domain.Endereco", b =>
+            modelBuilder.Entity("lab_entity_framework_core.Domain.Endereco", b =>
                 {
-                    b.HasOne("lab_entity_framework_core_automatico.Domain.Cidade", "Cidade")
+                    b.HasOne("lab_entity_framework_core.Domain.Cidade", "Cidade")
                         .WithMany()
                         .HasForeignKey("CidadeId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -157,9 +157,9 @@ namespace lab_entity_framework_core_fluent_api.Migrations
                     b.Navigation("Cidade");
                 });
 
-            modelBuilder.Entity("lab_entity_framework_core_automatico.Domain.Pessoa", b =>
+            modelBuilder.Entity("lab_entity_framework_core.Domain.Pessoa", b =>
                 {
-                    b.HasOne("lab_entity_framework_core_automatico.Domain.Endereco", "Endereco")
+                    b.HasOne("lab_entity_framework_core.Domain.Endereco", "Endereco")
                         .WithMany()
                         .HasForeignKey("EnderecoId")
                         .OnDelete(DeleteBehavior.Cascade)
