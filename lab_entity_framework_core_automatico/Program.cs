@@ -212,23 +212,31 @@ namespace lab_entity_framework_core_automatico
         public static void RemoveRegistrosDesconectado()
         {
             InseriDadosEmLote();
+
             Console.WriteLine("Digite o id da pessoa: " + db.Pessoa.First().Id + " entre " + (db.Pessoa.First().Id + db.Pessoa.Count() - 1));
 
-            // Usei o find para ir no cache usando o Id como chave primaria
-            var pessoa = new Pessoa
+            try
             {
-                Id = db.Pessoa.Find(Convert.ToInt32(Console.ReadLine())).Id
-            };
+                // Usei o find para ir no cache usando o Id como chave primaria
+                var pessoa = new Pessoa
+                {
+                    Id = db.Pessoa.Find(Convert.ToInt32(Console.ReadLine())).Id
+                };
 
-            // Precisei criar um novo contexto para não conflitar a chave primária já estar sendo usada em outra instância
-            using (var context = new ApplicationContext())
+                // Precisei criar um novo contexto para não conflitar a chave primária já estar sendo usada em outra instância
+                using (var context = new ApplicationContext())
+                {
+                    // Várias formas de remover pessoas
+                    context.Remove(pessoa);
+                    context.Pessoa.Remove(pessoa);
+                    context.Set<Pessoa>().Remove(pessoa);
+                    context.Entry(pessoa).State = EntityState.Deleted;
+                    context.SaveChanges();
+                }
+            }
+            catch (Exception ex)
             {
-                // Várias formas de remover pessoas
-                context.Remove(pessoa);
-                context.Pessoa.Remove(pessoa);
-                context.Set<Pessoa>().Remove(pessoa);
-                context.Entry(pessoa).State = EntityState.Deleted;
-                context.SaveChanges();
+                throw new Exception("\n\nID DE PESSOA INVÁLIDO\n\n");
             }
         }
 

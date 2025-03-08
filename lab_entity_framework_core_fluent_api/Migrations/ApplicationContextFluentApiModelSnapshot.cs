@@ -3,14 +3,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using lab_entity_framework_core.Data;
+using lab_entity_framework_core_fluent_api.Data;
 
 #nullable disable
 
-namespace lab_entity_framework_core_automatico.Migrations
+namespace lab_entity_framework_core_fluent_api.Migrations
 {
-    [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(ApplicationContextFluentApi))]
+    partial class ApplicationContextFluentApiModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -34,7 +34,7 @@ namespace lab_entity_framework_core_automatico.Migrations
 
                     b.Property<string>("Nome")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VARCHAR(80)");
 
                     b.HasKey("Id");
 
@@ -56,19 +56,19 @@ namespace lab_entity_framework_core_automatico.Migrations
 
                     b.Property<string>("Complemento")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VARCHAR(80)");
 
                     b.Property<string>("Logradouro")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VARCHAR(80)");
 
                     b.Property<string>("Nome")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VARCHAR(80)");
 
                     b.Property<string>("Numero")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VARCHAR(10)");
 
                     b.HasKey("Id");
 
@@ -87,7 +87,7 @@ namespace lab_entity_framework_core_automatico.Migrations
 
                     b.Property<string>("Nome")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VARCHAR(80)");
 
                     b.Property<string>("NomeCidade")
                         .IsRequired()
@@ -108,23 +108,27 @@ namespace lab_entity_framework_core_automatico.Migrations
 
                     b.Property<string>("Cpf")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("CHAR(14)");
 
                     b.Property<int>("EnderecoId")
                         .HasColumnType("int");
 
                     b.Property<string>("Nome")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VARCHAR(80)");
 
                     b.Property<string>("Sobrenome")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("VARCHAR(80)");
 
                     b.Property<int>("TipoPessoa")
+                        .HasMaxLength(1)
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Cpf")
+                        .HasDatabaseName("idx_pessoa_cpf");
 
                     b.HasIndex("EnderecoId");
 
