@@ -1,6 +1,54 @@
-# Entity Framework Lab
+# POCs de Entity Framework Core
 
 Este repositório é um projeto de laboratório criado para estudos e experimentação com o **Entity Framework**, um dos frameworks de ORM (Object-Relational Mapping) mais populares no ecossistema .NET.
+
+O repositório lab_entity_framework_core é usado somenta como base para reaproveitamento nos projetos citados abaixo.
+
+Este repositório contém três projetos distintos que demonstram diferentes abordagens para trabalhar com o Entity Framework Core:
+
+- `lab_entity_framework_core_automatico`
+- `lab_entity_framework_core_fluent_api`
+- `lab_entity_framework_core_data_annotations`
+
+Cada um desses projetos implementa a persistência de dados de maneiras diferentes, explorando as opções disponíveis no EF Core.
+
+## 📌 Diferença entre os projetos
+
+### 1️⃣ `lab_entity_framework_core_automatico`
+
+Este projeto utiliza a **configuração automática** do Entity Framework Core, onde as convenções padrão do EF são aplicadas sem necessidade de configurações explícitas.
+
+✅ Vantagens:
+- Menos código de configuração.
+- Mais rápido para começar, ideal para projetos simples.
+
+⚠️ Desvantagens:
+- Pouco controle sobre a estrutura do banco de dados.
+- Pode gerar nomes de tabelas e colunas que não atendem às necessidades do projeto.
+
+### 2️⃣ `lab_entity_framework_core_fluent_api`
+
+Neste projeto, utilizamos a **Fluent API** para configurar o mapeamento das entidades.
+
+✅ Vantagens:
+- Maior controle sobre o esquema do banco de dados.
+- Possibilidade de configurar relacionamentos complexos.
+
+⚠️ Desvantagens:
+- Exige mais código e conhecimento do EF Core.
+- Pode tornar a configuração inicial mais trabalhosa.
+
+### 3️⃣ `lab_entity_framework_core_data_annotations`
+
+Este projeto utiliza **Data Annotations**, que são atributos adicionados diretamente nas classes para definir regras de mapeamento.
+
+✅ Vantagens:
+- Configuração mais declarativa e intuitiva.
+- Facilita a leitura e manutenção do código.
+
+⚠️ Desvantagens:
+- Menos flexibilidade em relação à Fluent API.
+- Pode tornar as classes de domínio mais poluídas com atributos de configuração.
 
 ## Objetivo
 
@@ -17,9 +65,11 @@ Este projeto é voltado para estudantes e profissionais que desejam aprender ou 
 
 ## Estrutura do Projeto
 
-- **Models/**: Contém as definições das classes que representam as entidades do banco de dados.
+- **Domain/**: Contém as definições das classes que representam as entidades do banco de dados.
+- **Utils/**: Utilizado para implementar o Bogus;
 - **Data/**: Inclui o DbContext e configurações relacionadas ao acesso a dados.
 - **Migrations/**: Diretório gerado pelo Entity Framework para controle de versão do esquema do banco de dados.
+- **Scrtipts/**: Scripts gerados pelo comando dotnet ef migrations script -o scripts\PrimeiraMigracao.SQL
 - **Program.cs**: Ponto de entrada da aplicação, onde é feita a configuração inicial.
 
 ## Tecnologias Utilizadas
@@ -28,6 +78,7 @@ Este projeto é voltado para estudantes e profissionais que desejam aprender ou 
 - **Entity Framework Core**
 - **.NET**
 - **SQL Server** (ou outro banco de dados à sua escolha)
+-  **Bogus**
 
 ## Como Usar
 
