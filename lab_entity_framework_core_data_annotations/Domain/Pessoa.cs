@@ -1,4 +1,5 @@
 ﻿using Bogus.Extensions.Brazil;
+using lab_entity_framework_core.Domain;
 using lab_entity_framework_core.Utils;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
