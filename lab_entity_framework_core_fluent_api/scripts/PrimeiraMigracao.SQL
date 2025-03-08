@@ -118,6 +118,9 @@ VALUES (N'20250308133250_AddContextCidadeEstado', N'9.0.2');
 INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
 VALUES (N'20250308140640_TesteMiogration', N'9.0.2');
 
+INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+VALUES (N'20250308143736_TesteMigraions3', N'9.0.2');
+
 COMMIT;
 GO
 

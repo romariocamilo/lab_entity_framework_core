@@ -7,4 +7,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\lab_entity_framework_core\lab_entity_framework_core.csproj" />
+  </ItemGroup>
+
 </Project>

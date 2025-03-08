@@ -7,11 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "lab_entity_framework_core",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "lab_entity_framework_core_data_annotations", "lab_entity_framework_core_data_annotations\lab_entity_framework_core_data_annotations.csproj", "{5A089024-C55F-4495-A30D-24C180A9E563}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Itens de Solução", "Itens de Solução", "{D1AEA7BE-9377-45B1-B28C-950BFDD9ABE6}"
-	ProjectSection(SolutionItems) = preProject
-		TextFile1.txt = TextFile1.txt
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "lab_entity_framework_core_fluent_api", "lab_entity_framework_core_fluent_api\lab_entity_framework_core_fluent_api.csproj", "{E0868F0F-D168-49ED-A311-E428A04B16B1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "lab_entity_framework_core_automatico", "lab_entity_framework_core_automatico\lab_entity_framework_core_automatico.csproj", "{4B2C9CA9-708D-48D9-B0FA-3B13190752BF}"
